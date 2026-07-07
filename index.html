@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>✨ 次元互娱 · 活动中心</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- 背景粒子层 -->
+  <div class="bg-layer">
+    <div class="stars" id="stars"></div>
+    <div class="nebula nebula-1"></div>
+    <div class="nebula nebula-2"></div>
+    <div class="nebula nebula-3"></div>
+  </div>
+
+  <!-- 顶部导航 -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo-area">
+        <div class="logo-icon">
+          <img src="logo.png" alt="次元互娱" class="logo-img" />
+        </div>
+        <div class="logo-text">
+          <span class="guild-name">次元互娱</span>
+          <span class="guild-sub">CIYUAN HUYU · 活动中心</span>
+        </div>
+      </div>
+      <nav class="header-nav">
+        <a href="#" class="nav-link active">活动总览</a>
+        <a href="#" class="nav-link">公告栏</a>
+        <a href="#" class="nav-link">排行榜</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 主视觉 Banner -->
+  <section class="hero-banner">
+    <div class="hero-content">
+      <div class="hero-badge">🌸 2026 次元互娱年度计划</div>
+      <h1 class="hero-title">
+        <span class="title-line-1">次元互娱</span>
+        <span class="title-line-2">主播活动中心</span>
+      </h1>
+      <p class="hero-desc">次元互娱竭诚服务每一位主播✨<br/>海量资源·精准扶持·定制活动·全面培养</p>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-num" data-count="128">0</span>
+          <span class="stat-label">活动场次</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num" data-count="360">0</span>
+          <span class="stat-label">参与主播</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num" data-count="50">0</span>
+          <span class="stat-label">万元奖池</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-decoration">
+      <div class="deco-circle deco-c1"></div>
+      <div class="deco-circle deco-c2"></div>
+      <div class="deco-circle deco-c3"></div>
+      <div class="deco-character">
+        <div class="char-ring"></div>
+        <div class="char-body">
+          <span class="char-emoji">🌸</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ⭐ 今日之星模块 -->
+  <section class="today-star-section" id="todayStarSection">
+    <div class="section-inner">
+      <div class="star-card">
+        <div class="star-glow"></div>
+        <div class="star-photo no-photo" id="starPhoto">🌟</div>
+        <div class="star-info">
+          <div class="star-crown">👑 今日之星</div>
+          <h2 class="star-name" id="starName">主播名</h2>
+          <p class="star-date" id="starDate">昨日流水冠军</p>
+          <p class="star-note" id="starNote"></p>
+          <div class="star-tags" id="starTags"></div>
+        </div>
+        <div class="star-badge-deco">
+          <span class="deco-star deco-s1">✦</span>
+          <span class="deco-star deco-s2">✧</span>
+          <span class="deco-star deco-s3">⭐</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 活动内容区域 -->
+  <main class="activity-main" id="activityMain">
+    <div class="section-inner">
+
+      <!-- 活动标题 + 右侧状态切换 -->
+      <div class="month-header" id="monthHeader">
+        <div class="month-icon">🎯</div>
+        <div class="month-title-group">
+          <h2 class="month-title" id="monthTitle">当前活动</h2>
+          <p class="month-subtitle" id="monthSubtitle">正在进行中的活动</p>
+        </div>
+        <!-- 右侧切换按钮 -->
+        <div class="status-switch" id="statusSwitch">
+          <button class="switch-btn active" data-status="active" onclick="switchStatus('active')">
+            <span class="switch-dot active-dot"></span>当前活动
+          </button>
+          <button class="switch-btn" data-status="ended" onclick="switchStatus('ended')">
+            <span class="switch-dot ended-dot"></span>结束活动
+          </button>
+        </div>
+      </div>
+
+      <!-- 活动置顶公告 -->
+      <div class="notice-banner" id="noticeBanner">
+        <span class="notice-icon">📢</span>
+        <span class="notice-text" id="noticeText">本月活动火热进行中！请各位主播关注结算时间，奖励将于次月5日统一发放。</span>
+      </div>
+
+      <!-- 活动卡片网格 -->
+      <div class="activity-grid" id="activityGrid">
+        <!-- 活动卡片由 JS 动态渲染 -->
+      </div>
+
+      <!-- 空状态 -->
+      <div class="empty-state" id="emptyState" style="display:none;">
+        <div class="empty-icon">🌙</div>
+        <p class="empty-title">本月活动即将公布</p>
+        <p class="empty-desc">敬请期待，运营小姐姐们正在努力策划中～</p>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- 底部 -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-logo">🌸 次元互娱</div>
+      <p class="footer-text">© 2026 次元互娱 · 哔哩哔哩直播公会</p>
+      <p class="footer-hint">意见投诉联系 QQ：769581631 · 活动最终解释归次元互娱所有</p>
+    </div>
+  </footer>
+
+  <!-- 烟花特效容器 -->
+  <div class="fireworks-container" id="fireworksContainer"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

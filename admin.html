@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>次元互娱 · 活动后台管理</title>
+  <link rel="stylesheet" href="admin.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ============ 登录遮罩 ============ -->
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-box">
+      <div class="login-logo">🌸 次元互娱后台</div>
+      <p class="login-sub">请输入 GitHub 访问令牌以管理活动</p>
+
+      <label class="field-label">GitHub Token</label>
+      <input type="password" id="tokenInput" class="login-input" placeholder="ghp_xxxxxxxxxxxx" />
+
+      <label class="field-label" style="margin-top:14px;">仓库（用户名/仓库名）</label>
+      <input type="text" id="repoInput" class="login-input" placeholder="B1acFire/ciyuan-activity" value="B1acFire/ciyuan-activity" />
+
+      <label class="login-remember">
+        <input type="checkbox" id="rememberToken" checked />
+        <span>在本机记住令牌（存于浏览器本地，不上传）</span>
+      </label>
+
+      <button class="login-btn" id="loginBtn">进入后台</button>
+      <p class="login-hint" id="loginHint"></p>
+
+      <details class="login-help">
+        <summary>怎么获取 Token？</summary>
+        <ol>
+          <li>GitHub 头像 → Settings → Developer settings</li>
+          <li>Personal access tokens → Tokens (classic)</li>
+          <li>Generate new token，勾选 <b>repo</b> 权限</li>
+          <li>复制 ghp_ 开头的令牌，粘贴到上方</li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <!-- ============ 后台主体 ============ -->
+  <div class="admin-app" id="adminApp" style="display:none;">
+
+    <!-- 顶栏 -->
+    <header class="admin-header">
+      <div class="admin-logo">🌸 次元互娱 · 活动后台</div>
+      <div class="admin-header-right">
+        <span class="save-status" id="saveStatus"></span>
+        <a href="index.html" target="_blank" class="btn-ghost">👁 预览前台</a>
+        <button class="btn-primary" id="publishBtn">💾 发布到网站</button>
+        <button class="btn-ghost" id="logoutBtn">退出</button>
+      </div>
+    </header>
+
+    <!-- Tab 切换 -->
+    <nav class="admin-tabs">
+      <button class="admin-tab active" data-panel="activities">🎯 活动管理</button>
+      <button class="admin-tab" data-panel="star">⭐ 今日之星</button>
+      <button class="admin-tab" data-panel="notice">📢 全局公告</button>
+    </nav>
+
+    <main class="admin-main">
+
+      <!-- 面板：活动管理 -->
+      <section class="panel active" id="panel-activities">
+        <div class="panel-head">
+          <h2>活动列表</h2>
+          <button class="btn-primary" id="addActivityBtn">＋ 新增活动</button>
+        </div>
+        <p class="panel-tip">💡 活动会根据「开始/结束日期」自动归类：进行中显示在「当前活动」，过期自动进入「结束活动」。</p>
+        <div class="activity-list" id="adminActivityList"></div>
+      </section>
+
+      <!-- 面板：今日之星 -->
+      <section class="panel" id="panel-star">
+        <div class="panel-head"><h2>今日之星设置</h2></div>
+        <div class="form-card">
+          <label class="switch-row">
+            <input type="checkbox" id="starEnabled" />
+            <span>启用今日之星模块（关闭则前台不显示）</span>
+          </label>
+
+          <div class="form-grid">
+            <div class="form-field">
+              <label>主播名称</label>
+              <input type="text" id="starNameInput" placeholder="如：小樱" />
+            </div>
+            <div class="form-field">
+              <label>日期</label>
+              <input type="date" id="starDateInput" />
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label>主播写真照片</label>
+            <div class="upload-row">
+              <div class="upload-preview" id="starPhotoPreview">🌟</div>
+              <div class="upload-actions">
+                <input type="file" id="starPhotoFile" accept="image/*" hidden />
+                <button class="btn-ghost" id="starPhotoBtn">📷 选择照片上传</button>
+                <p class="upload-hint">建议正方形，1:1 比例，大小 &lt; 2MB</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label>寄语 / 说明</label>
+            <textarea id="starNoteInput" rows="2" placeholder="如：昨日流水冠军，恭喜登顶今日之星！"></textarea>
+          </div>
+
+          <div class="form-field">
+            <label>标签（用逗号分隔）</label>
+            <input type="text" id="starTagsInput" placeholder="流水冠军, 人气担当" />
+          </div>
+        </div>
+      </section>
+
+      <!-- 面板：全局公告 -->
+      <section class="panel" id="panel-notice">
+        <div class="panel-head"><h2>全局公告</h2></div>
+        <div class="form-card">
+          <div class="form-field">
+            <label>公告内容（显示在「当前活动」顶部横幅）</label>
+            <textarea id="noticeInput" rows="3" placeholder="输入本期公告文字..."></textarea>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ============ 活动编辑弹窗 ============ -->
+  <div class="modal-overlay" id="activityModal" style="display:none;">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 id="modalTitle">新增活动</h3>
+        <button class="modal-close" id="modalClose">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="form-field">
+            <label>活动标题 *</label>
+            <input type="text" id="f-title" placeholder="如：7月今日之星·每日红包" />
+          </div>
+          <div class="form-field">
+            <label>活动类型标签 *</label>
+            <input type="text" id="f-type" placeholder="如：每日活动" />
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label>活动描述 *</label>
+          <textarea id="f-desc" rows="4" placeholder="详细描述活动规则..."></textarea>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-field">
+            <label>开始日期 *</label>
+            <input type="date" id="f-startDate" />
+          </div>
+          <div class="form-field">
+            <label>结束日期（长期政策可留空）</label>
+            <input type="date" id="f-endDate" />
+          </div>
+        </div>
+
+        <label class="switch-row">
+          <input type="checkbox" id="f-permanent" />
+          <span>长期政策（无结束日期，永远显示在当前活动）</span>
+        </label>
+
+        <div class="form-grid">
+          <div class="form-field">
+            <label>日期显示文字</label>
+            <input type="text" id="f-dateRange" placeholder="如：7月1日 — 7月31日" />
+          </div>
+          <div class="form-field">
+            <label>参与目标</label>
+            <input type="text" id="f-target" placeholder="如：当日流水排名上榜" />
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label>奖励说明</label>
+          <textarea id="f-reward" rows="2" placeholder="如：💰 每上榜1次 = 20元红包"></textarea>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-field">
+            <label>主题配色</label>
+            <select id="f-theme">
+              <option value="card-theme-pink">粉红 · 节日/粉丝</option>
+              <option value="card-theme-purple">紫色 · 联动/冲榜</option>
+              <option value="card-theme-cyan">青色 · 新人/成长</option>
+              <option value="card-theme-gold">金色 · 排行/奖励</option>
+              <option value="card-theme-green">绿色 · 主题月</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Emoji 图标（无图片时显示）</label>
+            <input type="text" id="f-emoji" placeholder="🎁" maxlength="4" />
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label>活动礼物图片（可选，优先于 Emoji）</label>
+          <div class="upload-row">
+            <div class="upload-preview small" id="actImagePreview">🎁</div>
+            <div class="upload-actions">
+              <input type="file" id="actImageFile" accept="image/*" hidden />
+              <button class="btn-ghost" id="actImageBtn">📷 上传图片</button>
+              <button class="btn-ghost" id="actImageClear">清除图片</button>
+              <p class="upload-hint">上传后前台卡片会用这张图</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn-ghost" id="modalCancel">取消</button>
+        <button class="btn-primary" id="modalSave">保存活动</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
