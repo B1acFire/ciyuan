@@ -96,14 +96,14 @@
           </div>
 
           <div class="form-field">
-            <label>主播写真照片</label>
-            <div class="upload-row">
-              <div class="upload-preview" id="starPhotoPreview">🌟</div>
-              <div class="upload-actions">
-                <input type="file" id="starPhotoFile" accept="image/*" hidden />
-                <button class="btn-ghost" id="starPhotoBtn">📷 选择照片上传</button>
-                <p class="upload-hint">建议正方形，1:1 比例，大小 &lt; 2MB</p>
-              </div>
+            <label>主播写真照片（1920×1080 横幅，支持 JPG/PNG/WebP）</label>
+            <!-- 宽幅预览 -->
+            <div class="star-photo-preview" id="starPhotoPreview">🌟</div>
+            <div style="display:flex;gap:10px;align-items:center;">
+              <input type="file" id="starPhotoFile" accept="image/*" hidden />
+              <button class="btn-ghost" id="starPhotoBtn">📷 选择写真上传</button>
+              <button class="btn-ghost" id="starPhotoClear">清除图片</button>
+              <span class="upload-hint">建议 1920×1080，大小 &lt; 5MB</span>
             </div>
           </div>
 
