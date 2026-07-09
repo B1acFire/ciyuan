@@ -237,37 +237,37 @@ function renderTodayStar() {
   if (!section) return;
 
   const star = SITE_DATA.todayStar;
-  // 未启用或无数据 → 隐藏整个模块
   if (!star || !star.enabled || !star.name) {
     section.style.display = 'none';
     return;
   }
   section.style.display = '';
 
-  const photoEl = $('#starPhoto');
-  const nameEl  = $('#starName');
-  const dateEl  = $('#starDate');
-  const noteEl  = $('#starNote');
-  const tagsEl  = $('#starTags');
+  const bgEl      = $('#starPhoto');       // star-bg 元素
+  const cardEl    = $('#starCardInner');   // star-card 元素
+  const nameEl    = $('#starName');
+  const dateEl    = $('#starDate');
+  const noteEl    = $('#starNote');
+  const tagsEl    = $('#starTags');
 
-  if (photoEl) {
+  // 背景写真图
+  if (bgEl) {
     if (star.photo) {
-      photoEl.style.backgroundImage = `url('${star.photo}')`;
-      photoEl.classList.remove('no-photo');
-      photoEl.textContent = '';
+      bgEl.style.backgroundImage = `url('${star.photo}')`;
+      if (cardEl) cardEl.classList.remove('no-photo');
     } else {
-      photoEl.style.backgroundImage = '';
-      photoEl.classList.add('no-photo');
-      photoEl.textContent = '🌟';
+      bgEl.style.backgroundImage = '';
+      bgEl.textContent = '🌟';
+      if (cardEl) cardEl.classList.add('no-photo');
     }
   }
-  if (nameEl) nameEl.textContent = star.name;
-  if (dateEl) dateEl.textContent = star.date ? `${star.date} · 昨日流水冠军` : '昨日流水冠军';
-  if (noteEl) noteEl.textContent = star.note || '';
 
+  if (nameEl) nameEl.textContent  = star.name;
+  if (dateEl) dateEl.textContent  = star.date ? `${star.date} · 昨日流水冠军` : '昨日流水冠军';
+  if (noteEl) noteEl.textContent  = star.note || '';
   if (tagsEl) {
-    const tags = star.tags || [];
-    tagsEl.innerHTML = tags.map(t => `<span class="star-tag">${t}</span>`).join('');
+    tagsEl.innerHTML = (star.tags || [])
+      .map(t => `<span class="star-tag">${t}</span>`).join('');
   }
 }
 
