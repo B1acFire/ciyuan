@@ -1146,110 +1146,130 @@ body {
 }
 
 /* ============================================
-   ⭐ 今日之星模块
+   ⭐ 今日之星模块 — 全宽横幅写真风格
+   适配 1920×1080 宽幅主播写真图
    ============================================ */
 .today-star-section {
   position: relative;
   z-index: 1;
-  padding: 20px 0 10px;
+  padding: 16px 0 24px;
 }
 
+/* 外层卡片容器 */
 .star-card {
   position: relative;
-  display: flex;
-  align-items: center;
-  gap: 32px;
-  padding: 28px 36px;
+  width: 100%;
+  height: 340px;           /* 横幅高度，可调整 */
   border-radius: var(--radius-xl);
-  background: linear-gradient(135deg, rgba(251,191,36,0.12), rgba(251,114,153,0.1), rgba(168,85,247,0.12));
-  border: 1px solid rgba(251, 191, 36, 0.35);
   overflow: hidden;
-  box-shadow: 0 8px 40px rgba(251, 191, 36, 0.12);
+  border: 1px solid rgba(251, 191, 36, 0.4);
+  box-shadow:
+    0 0 0 1px rgba(251,191,36,0.15),
+    0 12px 50px rgba(0,0,0,0.5),
+    0 0 60px rgba(251,191,36,0.12);
   animation: fadeInUp 0.6s ease both;
+  cursor: default;
 }
 
-.star-glow {
+/* 写真背景图 */
+.star-bg {
   position: absolute;
-  top: -50%;
-  left: -10%;
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle, rgba(251,191,36,0.25), transparent 70%);
-  filter: blur(40px);
-  animation: nebulaDrift 8s ease-in-out infinite alternate;
+  inset: 0;
+  background-size: cover;
+  background-position: center top;
+  transition: transform 6s ease;
+  transform: scale(1.04);
+}
+.star-card:hover .star-bg {
+  transform: scale(1.0);  /* 悬停时轻微缩小，有电影感 */
+}
+
+/* 多层渐变遮罩：左侧深色（文字区）+ 底部暗化 */
+.star-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right,
+      rgba(10,0,25,0.88) 0%,
+      rgba(10,0,25,0.6)  35%,
+      rgba(10,0,25,0.15) 65%,
+      rgba(10,0,25,0.05) 100%
+    ),
+    linear-gradient(to top,
+      rgba(10,0,25,0.7)  0%,
+      transparent 50%
+    );
   pointer-events: none;
 }
 
-/* 主播写真照 */
-.star-photo {
-  width: 120px;
-  height: 120px;
-  min-width: 120px;
-  border-radius: 50%;
-  background-size: cover;
-  background-position: center;
-  border: 3px solid rgba(251, 191, 36, 0.6);
-  box-shadow: 0 0 24px rgba(251, 191, 36, 0.4);
-  position: relative;
-  z-index: 1;
+/* 右侧光晕装饰 */
+.star-overlay::after {
+  content: '';
+  position: absolute;
+  top: -30%;
+  right: 15%;
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, rgba(251,191,36,0.12), transparent 70%);
+  filter: blur(30px);
+  animation: nebulaDrift 8s ease-in-out infinite alternate;
+}
+
+/* 文字内容层 */
+.star-content {
+  position: absolute;
+  inset: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: starPhotoPulse 3s ease-in-out infinite;
-}
-
-.star-photo.no-photo {
-  font-size: 48px;
-  background: radial-gradient(circle at 40% 40%, rgba(251,191,36,0.3), rgba(251,114,153,0.15));
-}
-
-@keyframes starPhotoPulse {
-  0%, 100% { box-shadow: 0 0 24px rgba(251, 191, 36, 0.4); }
-  50%       { box-shadow: 0 0 36px rgba(251, 191, 36, 0.7); }
-}
-
-.star-info {
-  flex: 1;
-  position: relative;
-  z-index: 1;
-  min-width: 0;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 32px 40px;
+  z-index: 2;
+  max-width: 520px;
 }
 
 .star-crown {
-  display: inline-block;
-  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
   font-weight: 700;
   color: var(--accent-gold);
-  padding: 4px 14px;
-  background: rgba(251, 191, 36, 0.15);
-  border: 1px solid rgba(251, 191, 36, 0.4);
+  padding: 5px 14px;
+  background: rgba(251,191,36,0.15);
+  border: 1px solid rgba(251,191,36,0.45);
   border-radius: 20px;
-  margin-bottom: 10px;
-  letter-spacing: 1px;
+  margin-bottom: 12px;
+  letter-spacing: 2px;
+  width: fit-content;
+  backdrop-filter: blur(4px);
 }
 
 .star-name {
-  font-size: 32px;
+  font-size: clamp(28px, 4vw, 48px);
   font-weight: 900;
-  background: linear-gradient(135deg, #fbbf24, #fb7299, #e879f9);
+  line-height: 1.1;
+  margin-bottom: 6px;
+  background: linear-gradient(135deg, #fff9e6, #fbbf24, #fb7299);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  line-height: 1.2;
-  margin-bottom: 4px;
+  text-shadow: none;
+  letter-spacing: 1px;
 }
 
 .star-date {
   font-size: 13px;
-  color: var(--text-muted);
-  margin-bottom: 8px;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 10px;
+  letter-spacing: 1px;
 }
 
 .star-note {
   font-size: 14px;
-  color: var(--text-secondary);
+  color: rgba(255,255,255,0.75);
   line-height: 1.7;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
+  max-width: 400px;
 }
 
 .star-tags {
@@ -1262,17 +1282,53 @@ body {
   font-size: 12px;
   color: var(--accent-gold);
   padding: 4px 12px;
-  background: rgba(251, 191, 36, 0.1);
-  border: 1px solid rgba(251, 191, 36, 0.3);
+  background: rgba(251,191,36,0.12);
+  border: 1px solid rgba(251,191,36,0.35);
   border-radius: 14px;
+  backdrop-filter: blur(4px);
 }
 
+/* 右上角闪星装饰 */
 .star-badge-deco {
   position: absolute;
-  top: 0; right: 0; bottom: 0;
-  width: 120px;
+  top: 20px;
+  right: 24px;
   pointer-events: none;
-  z-index: 0;
+  z-index: 3;
+}
+
+.deco-star {
+  position: absolute;
+  color: rgba(251,191,36,0.5);
+  animation: charFloat 4s ease-in-out infinite;
+}
+.deco-s1 { font-size: 22px; top: 0;   right: 0;  animation-delay: 0s; }
+.deco-s2 { font-size: 14px; top: 30px; right: 30px; animation-delay: 1s; }
+.deco-s3 { font-size: 18px; top: 8px;  right: 52px; animation-delay: 2s; }
+
+/* 无图时的占位 */
+.star-card.no-photo {
+  background: linear-gradient(135deg, #1a0533, #2d1057, #1a1a3e);
+}
+.star-card.no-photo .star-bg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
+  opacity: 0.3;
+}
+
+/* 移动端适配 */
+@media (max-width: 640px) {
+  .star-card     { height: 240px; }
+  .star-content  { padding: 20px; max-width: 100%; }
+  .star-name     { font-size: 26px; }
+  .star-note     { display: none; }
+  .star-overlay  {
+    background:
+      linear-gradient(to top, rgba(10,0,25,0.9) 0%, rgba(10,0,25,0.4) 60%, transparent 100%);
+  }
+  .star-content  { justify-content: flex-end; }
 }
 
 .deco-star {
