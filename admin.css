@@ -355,6 +355,25 @@ input, textarea, select, button { font-family: inherit; }
 }
 .switch-row input { width: 18px; height: 18px; accent-color: var(--pink); }
 
+/* 今日之星写真预览（宽幅横向） */
+.star-photo-preview {
+  width: 100%;
+  height: 180px;
+  border-radius: 12px;
+  background: rgba(168,85,247,0.1);
+  border: 2px dashed var(--border);
+  background-size: cover;
+  background-position: center top;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  margin-bottom: 12px;
+  transition: border-color 0.2s;
+  overflow: hidden;
+}
+.star-photo-preview.has-photo { border-style: solid; border-color: rgba(251,191,36,0.5); }
+
 /* 上传 */
 .upload-row { display: flex; align-items: center; gap: 16px; }
 .upload-preview {
