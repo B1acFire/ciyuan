@@ -80,21 +80,29 @@
   <!-- ⭐ 今日之星模块 -->
   <section class="today-star-section" id="todayStarSection">
     <div class="section-inner">
-      <div class="star-card">
-        <div class="star-glow"></div>
-        <div class="star-photo no-photo" id="starPhoto">🌟</div>
-        <div class="star-info">
+      <div class="star-card" id="starCardInner">
+
+        <!-- 背景写真图 -->
+        <div class="star-bg" id="starPhoto"></div>
+        <!-- 渐变遮罩 -->
+        <div class="star-overlay"></div>
+
+        <!-- 内容层 -->
+        <div class="star-content">
           <div class="star-crown">👑 今日之星</div>
           <h2 class="star-name" id="starName">主播名</h2>
           <p class="star-date" id="starDate">昨日流水冠军</p>
           <p class="star-note" id="starNote"></p>
           <div class="star-tags" id="starTags"></div>
         </div>
+
+        <!-- 右上角装饰 -->
         <div class="star-badge-deco">
           <span class="deco-star deco-s1">✦</span>
           <span class="deco-star deco-s2">✧</span>
           <span class="deco-star deco-s3">⭐</span>
         </div>
+
       </div>
     </div>
   </section>
