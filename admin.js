@@ -386,18 +386,20 @@ function moveActivity(i, dir) {
 // ============================================
 function fillStarForm() {
   const s = DATA.todayStar || {};
-  $('#starEnabled').checked = !!s.enabled;
-  $('#starNameInput').value = s.name || '';
-  $('#starDateInput').value = s.date || '';
-  $('#starNoteInput').value = s.note || '';
-  $('#starTagsInput').value = (s.tags || []).join(', ');
+  $('#starEnabled').checked   = !!s.enabled;
+  $('#starNameInput').value   = s.name || '';
+  $('#starDateInput').value   = s.date || '';
+  $('#starNoteInput').value   = s.note || '';
+  $('#starTagsInput').value   = (s.tags || []).join(', ');
   const prev = $('#starPhotoPreview');
   if (s.photo) {
     prev.style.backgroundImage = `url('${imgSrc(s.photo)}')`;
     prev.textContent = '';
+    prev.classList.add('has-photo');
   } else {
     prev.style.backgroundImage = '';
     prev.textContent = '🌟';
+    prev.classList.remove('has-photo');
   }
 }
 
@@ -481,6 +483,16 @@ function bindEvents() {
     const prev = $('#starPhotoPreview');
     prev.style.backgroundImage = `url('data:${file.type};base64,${b64}')`;
     prev.textContent = '';
+    prev.classList.add('has-photo');
+  });
+  // 清除今日之星图片
+  $('#starPhotoClear').addEventListener('click', () => {
+    pendingStarImage = null;
+    DATA.todayStar.photo = '';
+    const prev = $('#starPhotoPreview');
+    prev.style.backgroundImage = '';
+    prev.textContent = '🌟';
+    prev.classList.remove('has-photo');
   });
 }
 
