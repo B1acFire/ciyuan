@@ -1,10 +1,10 @@
 {
   "notice": "🔥 次元互娱七月活动全面开启！超额电池冲刺、今日之星每日红包、航海积分赏金赛火热进行中！活动最终解释归次元互娱所有。",
   "todayStar": {
-    "enabled": false,
-    "name": "青眠",
+    "enabled": true,
+    "name": "出月",
     "date": "2026-07-08",
-    "photo": "uploads/star-1783594876461.jpg",
+    "photo": "uploads/star-1783742617879.jpg",
     "note": "恭喜登顶今日之星！✨",
     "tags": [
       "流水冠军",
